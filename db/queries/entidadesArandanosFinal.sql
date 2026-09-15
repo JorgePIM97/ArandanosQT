@@ -1,0 +1,107 @@
+-- Crear la base de datos si no existe
+CREATE DATABASE ArandanosProduccion;
+GO
+
+-- Usar la base de datos
+USE ArandanosProduccion;
+GO
+
+-- Tabla FASE
+CREATE TABLE FASE(
+id_Fase INT IDENTITY(1,1) PRIMARY KEY,
+Clave VARCHAR(20) UNIQUE NOT NULL,
+Ubicacion VARCHAR(50) NOT NULL,
+Descripcion VARCHAR(200) NULL,
+Num_Tablas INT NULL
+);
+
+-- Tabla TABLA
+CREATE TABLE TABLA (
+    id_Tabla INT IDENTITY(1,1) PRIMARY KEY,
+    Clave VARCHAR(20) UNIQUE NOT NULL,
+    Ubicacion VARCHAR(50),
+    Descripcion VARCHAR(50),
+    Num_Macrotuneles INT NULL,
+    id_Fase INT FOREIGN KEY REFERENCES FASE(id_Fase) ON DELETE SET NULL
+);
+
+-- Tabla MACROTUNEL
+CREATE TABLE MACROTUNEL (
+    id_Macrotunel INT IDENTITY(1,1) PRIMARY KEY,
+    Clave VARCHAR(20) UNIQUE NOT NULL,
+    Descripcion VARCHAR(50),
+    Num_Pasillos INT,
+    id_Tabla INT FOREIGN KEY REFERENCES TABLA(id_Tabla) ON DELETE SET NULL
+);
+
+--Tabla LINEA
+CREATE TABLE LINEA (
+id_Linea INT IDENTITY(1,1) UNIQUE PRIMARY KEY,
+Clave VARCHAR(20) NOT NULL,
+Descripcion VARCHAR(50),
+Num_Macetas INT NULL,
+id_Macrotunel INT FOREIGN KEY REFERENCES MACROTUNEL(id_Macrotunel) ON DELETE SET NULL
+);
+
+--Tabla MODALIDAD
+CREATE TABLE MODALIDAD (
+id_Modalidad INT IDENTITY(1,1) PRIMARY KEY,
+Clave VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Tabla CUADRILLA
+CREATE TABLE CUADRILLA (
+    id_Cuadrilla INT IDENTITY(1,1) PRIMARY KEY,
+    Clave VARCHAR(20) UNIQUE NOT NULL,
+    Responsable VARCHAR(200) NOT NULL,
+    Localidad VARCHAR(100)
+);
+
+-- Tabla RECOLECTOR
+CREATE TABLE RECOLECTOR (
+    id_Recolector INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre_Completo VARCHAR(200) NOT NULL,
+    Encoder VARBINARY(MAX) UNIQUE NOT NULL,
+    Foto_Recolector VARBINARY(MAX) NOT NULL,
+    Localidad VARCHAR(100),
+    Telefono VARCHAR(50),
+    Fecha_Registro DATE,
+    Acceso BIT,  
+    id_Cuadrilla INT FOREIGN KEY REFERENCES CUADRILLA(id_Cuadrilla) ON DELETE SET NULL
+);
+
+-- Tabla COSECHA
+CREATE TABLE COSECHA (
+    id_Cosecha INT IDENTITY(1,1) PRIMARY KEY,
+    Clave VARCHAR(20) NOT NULL,
+    Calificacion VARCHAR(20),
+    Peso FLOAT NOT NULL,  -- double no es un tipo de dato en SQL Server, se usa FLOAT o DECIMAL
+    Foto_Cosecha VARCHAR(64) NULL,
+    Fecha_Transaccion DATETIME DEFAULT GETDATE(),
+    id_Recolector INT FOREIGN KEY REFERENCES RECOLECTOR(id_Recolector) ON DELETE SET NULL,
+    id_Linea INT FOREIGN KEY REFERENCES LINEA(id_Linea) ON DELETE SET NULL,
+    id_Entrega INT FOREIGN KEY REFERENCES ENTREGA(id_Entrega) ON DELETE SET NULL,
+    id_Cuadrilla INT FOREIGN KEY REFERENCES CUADRILLA(id_Cuadrilla) ON DELETE SET NULL,
+    id_Modalidad INT FOREIGN KEY REFERENCES MODALIDAD(id_Modalidad) ON DELETE SET NULL
+);
+
+-- Tabla ENTREGA
+CREATE TABLE ENTREGA (
+    id_Entrega INT IDENTITY(1,1) PRIMARY KEY,
+    Clave VARCHAR(20) NOT NULL,
+    Calificacion_Total VARCHAR(20) NOT NULL,
+    Peso_Total FLOAT NOT NULL,  
+    Entrega_Inicio DATETIME DEFAULT GETDATE(),
+	Entrega_Final DATETIME DEFAULT GETDATE(),
+    id_Recolector INT FOREIGN KEY REFERENCES RECOLECTOR(id_Recolector) ON DELETE SET NULL,
+    id_Linea INT FOREIGN KEY REFERENCES LINEA(id_Linea) ON DELETE SET NULL,
+    id_Modalidad INT FOREIGN KEY REFERENCES MODALIDAD(id_Modalidad) ON DELETE SET NULL
+);
+
+-- Tabla CHECK
+CREATE TABLE CHECK (
+    id_Check INT IDENTITY(1,1) PRIMARY KEY,
+    Fecha_Hora_Check DATE,
+    id_Recolector INT FOREIGN KEY REFERENCES RECOLECTOR(id_Recolector) ON DELETE SET NULL,
+    id_Modalidad INT FOREIGN KEY REFERENCES MODALIDAD(id_Modalidad) ON DELETE SET NULL
+);
