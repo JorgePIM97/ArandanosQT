@@ -1,0 +1,13 @@
+<svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cuerpo de la cámara (usando currentColor para recolorear dinámicamente) -->
+  <path d="M80 20H70L65 15C63 13 60 12 57 12H35C32 12 29 13 27 15L22 20H12C8 20 5 23 5 27V85C5 89 8 92 12 92H80C84 92 87 89 87 85V27C87 23 84 20 80 20Z" fill="currentColor"/>
+  
+  <!-- Lente (mismo color que el cuerpo) -->
+  <circle cx="46" cy="56" r="20" fill="currentColor"/>
+  
+  <!-- Flash (color fijo blanco para contraste) -->
+  <rect x="65" y="15" width="10" height="15" fill="#FFFFFF"/>
+  
+  <!-- Anillo exterior de la lente (color fijo gris claro para detalles) -->
+  <circle cx="46" cy="56" r="24" stroke="#E0E0E0" stroke-width="4" fill="none"/>
+</svg>

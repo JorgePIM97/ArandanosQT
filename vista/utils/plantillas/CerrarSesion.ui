@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CerrarSesion_Widget</class>
+ <widget class="QWidget" name="CerrarSesion_Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>481</width>
+    <height>263</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(213, 209, 248);</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>481</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">        border-radius: 20px;  /* Ajusta el valor para hacer las esquinas más o menos redondas */
+</string>
+   </property>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>10</y>
+      <width>291</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(213, 209, 248);
+color: black;  
+font-family: &quot;Segoe UI&quot;;
+font-size: 32px;
+font-weight: 650; 
+qproperty-alignment: AlignCenter;
+
+
+
+</string>
+    </property>
+    <property name="text">
+     <string>¿Seguro que desea 
+cerrar sesión?</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="CancelarCerrarSession_Btn">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>130</y>
+      <width>152</width>
+      <height>116</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+
+        background-color: #C03232;
+        /*border: 2px solid black;*/
+		color: white;  /* Cambia el color de la fuente a blanco */
+        border-radius: 25px;  /* Ajusta el valor para hacer las esquinas más o menos redondas */
+        padding: 10px;  /* Ajusta el margen interno del QLabel */
+		border: 4px solid white;
+    }</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../resources/resources.qrc">
+      <normaloff>:/images/iconos/botones/cerrar.png</normaloff>:/images/iconos/botones/cerrar.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>72</width>
+      <height>72</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ConfirmarCerrarSession_Btn">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>130</y>
+      <width>152</width>
+      <height>116</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+
+         background-color: #749540;
+        /*border: 2px solid black;*/
+		color: white;  /* Cambia el color de la fuente a blanco */
+        border-radius: 25px;  /* Ajusta el valor para hacer las esquinas más o menos redondas */
+        padding: 10px;  /* Ajusta el margen interno del QLabel */
+		border: 4px solid white;
+    }</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../resources/resources.qrc">
+      <normaloff>:/images/iconos/botones/check-mark.png</normaloff>:/images/iconos/botones/check-mark.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>92</width>
+      <height>92</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../resources/resources.qrc"/>
+  <include location="../../../../Program Files (x86)/resources/resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>ConfirmarCerrarSession_Btn</sender>
+   <signal>clicked()</signal>
+   <receiver>CerrarSesion_Widget</receiver>
+   <slot>ConfirmarCerrarSesion()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>395</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>481</x>
+     <y>159</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CancelarCerrarSession_Btn</sender>
+   <signal>clicked()</signal>
+   <receiver>CerrarSesion_Widget</receiver>
+   <slot>CancelarCerrarSesion()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-2</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>ConfirmarCerrarSesion()</slot>
+  <slot>CancelarCerrarSesion()</slot>
+ </slots>
+</ui>

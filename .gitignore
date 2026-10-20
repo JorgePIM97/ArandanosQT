@@ -1,0 +1,47 @@
+# Bytecode de Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Entornos virtuales
+env/
+venv/
+.arandanos_venv/
+.venv/
+
+# Configuraciones de VS Code, PyCharm, etc.
+.vscode/
+.idea/
+
+# Archivos temporales o locales
+*.log
+*.tmp
+*.bak
+
+# Archivos de base de datos locales
+*.sqlite
+*.db
+*.bak
+*.mdf
+*.ldf
+
+# Archivos de compilación o distribución
+build/
+dist/
+*.spec
+
+# Archivos generados por PyInstaller
+*.exe
+
+# Archivos Excel o exportaciones automáticas
+*.xlsx
+*.xls
+
+# Carpeta de cache del instalador (opcional)
+__installer_cache__/
+
+# Configuración sensible o temporal (si usas)
+config.json
+credenciales.json
+
+
