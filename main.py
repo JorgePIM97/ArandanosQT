@@ -3754,9 +3754,10 @@ class ArandanosControl(QMainWindow, Ui_ArandanoMain):
 
         # Al bloquear cada tecla por separado también quedan anuladas sus combinaciones
         # (Alt+Tab, Alt+F4, Ctrl+Esc, Win+D, Win+R, Win+L, etc.).
-        # "windows" cubre la tecla Windows izquierda y derecha.
+        # La tecla Windows se bloquea por scan code (91 izquierda, 92 derecha): la librería
+        # traduce "windows" a 57435/57436, pero el evento real llega como 91/92 y no coincide.
         # Ctrl+Alt+Supr no se puede bloquear desde una aplicación (lo controla Windows).
-        for tecla in ["alt", "tab", "esc", "windows"]:
+        for tecla in ["alt", "tab", "esc", 91, 92]:
             try:
                 keyboard.block_key(tecla)
             except Exception as e:
