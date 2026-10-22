@@ -80,7 +80,7 @@ def registrar_cosecha(id_recolector, peso, calificacion, frame_cosecha, id_linea
     session = get_db()
     try:
          # Cambiar a una ruta local en lugar de OneDrive
-        ruta_imagenes = "C:\\ArandanosGPA\\Imagenes_Cosechas"
+        ruta_imagenes = "D:\\ArandanosGPA\\Imagenes_Cosechas"
         #ruta_imagenes = "C:&ArandanosGPA/Imagenes_Cosechas" # Ruta para ejecutable
 
         # Crear el directorio si no existe

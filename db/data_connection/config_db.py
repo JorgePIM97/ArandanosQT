@@ -12,7 +12,7 @@ from sqlalchemy import text
 #CRED_FILE = "C:\\ArandanosGPA\\credenciales.json"
 
 # Carpeta de datos en AppData (siempre escribible, sin permisos de admin)
-APP_DATA_DIR = os.path.join(os.environ.get("APPDATA", "C:\\"), "ArandanosGPA")
+APP_DATA_DIR = os.path.join(os.environ.get("APPDATA", "D:\\"), "ArandanosGPA")
 os.makedirs(APP_DATA_DIR, exist_ok=True)
 CRED_FILE = os.path.join(APP_DATA_DIR, "credenciales.json")
 
