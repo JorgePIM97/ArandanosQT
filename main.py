@@ -2760,13 +2760,23 @@ class ArandanosControl(QMainWindow, Ui_ArandanoMain):
     )
 
     def TicketDelDia(self):
-        nombre = self.NombreCompletoText_lbl.text()
+        nombre = self.NombreCompletoText_lbl.text().strip()
+
+        # No imprimir ticket si el label está vacío (limpio)
+        if not nombre:
+            print("No hay colector seleccionado, no se imprime el ticket")
+            QMessageBox.warning(
+                self,
+                "Aviso",
+                "Detectar un colector antes de imprimir el ticket."
+            )
+            return
+
         resumen = Obtener_Resumen_Colector(nombre)
 
         if resumen:
             print("BERRIES LEON - TICKET DE VUELTA")
             print("-"*30)
-            # print(f"Fecha: {resumen['Fecha'].strftime("%d/%m/%Y")}")
             print(f"Fecha: {resumen['Fecha'].strftime('%d/%m/%Y %H:%M:%S')}")
             print(f"Nombre: {str(nombre)}")
             print(f"Total Vueltas: {str(resumen['Total_Entregas'])}")
@@ -2776,10 +2786,10 @@ class ArandanosControl(QMainWindow, Ui_ArandanoMain):
             print(f"Total Malas: {str(resumen['Total_Malas'])}")
             print("-"*30)
 
-            # # Crear instancia del impresor de tickets e imprimir
+            # Crear instancia del impresor de tickets e imprimir
             printer = TicketPrinter()
             printer.print_ticket_del_dia(
-                fecha = resumen['Fecha'].strftime('%d/%m/%Y %H:%M:%S'),
+                fecha=resumen['Fecha'].strftime('%d/%m/%Y %H:%M:%S'),
                 nombre=nombre,
                 total_vueltas=str(resumen['Total_Entregas']),
                 peso_total=f"{resumen['Peso_Total_Acumulado']} kg",
