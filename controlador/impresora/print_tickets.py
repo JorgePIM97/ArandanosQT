@@ -198,18 +198,14 @@ class TicketPrinter:
                 ticket_lines.append("Nombre   | Vueltas | T.Kg | T.B | T.R | T.M")
                 ticket_lines.append("-" * 32)
                 
-                # Agregar cada fila de resultados (máximo 8-10 líneas para evitar desborde)
-                for i, row in enumerate(resultados[:8]):  # Limitar a 8 registros por ticket
+                # Agregar todas las filas de resultados (el papel es continuo)
+                for i, row in enumerate(resultados):
                     # Formatear nombre para que quepa (máximo 15 caracteres)
                     nombre = row[0][:50] if len(row[0]) > 50 else row[0]
                     # Formatear línea compacta
                     line = f"{nombre} | {row[1]} | {row[2]:.3f} | {row[3]:} | {row[4]} | {row[5]}"
                     ticket_lines.append(line)
-                
-                # Si hay más registros, indicarlo
-                if len(resultados) > 8:
-                    ticket_lines.append(f"... y {len(resultados) - 8} más")
-                    
+
                 # Agregar totales si es necesario
                 ticket_lines.append("-" * 32)
                 total_vueltas = sum(row[1] for row in resultados)
