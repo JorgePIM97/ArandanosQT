@@ -196,6 +196,7 @@ class ArandanosControl(QMainWindow, Ui_ArandanoMain):
         self.setup_protected_combobox()
 
         self.teclas_bloqueadas = False
+        self._estilo_boton_teclas = self.ActivarTeclas_Btn.styleSheet()
 
         # Bloquear teclas al iniciar
         self.bloquear_teclas()
@@ -3728,87 +3729,61 @@ class ArandanosControl(QMainWindow, Ui_ArandanoMain):
                 f"No se pudo expulsar la USB:\n{str(e)}"
             )
 
-    def ActivarTeclas(self, checked):        
-        if checked:
-            desbloquear_teclas = QMessageBox.question(self, 'Advertencia', 
-                                            '¿Seguro que quieres bloquear las teclas?',
-                                            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-            
-            if desbloquear_teclas == QMessageBox.StandardButton.Yes:
-                self.desbloquear_teclas()
-                print("Teclas DESBLOQUEADAS")
-            else:
-                return
+    def ActivarTeclas(self, checked=False):
+        # El botón no es checkable, por eso el estado se toma de self.teclas_bloqueadas
+        if self.teclas_bloqueadas:
+            mensaje = ('¿Seguro que quieres desbloquear las teclas?\n\n'
+                       'Alt, Tab, Esc y Windows quedarán disponibles '
+                       'hasta que vuelvas a presionar este botón.')
         else:
-            bloquear_teclas = QMessageBox.question(self, 'Advertencia', 
-                                            '¿Seguro que quieres activar las teclas?',
-                                            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-            
-            if bloquear_teclas == QMessageBox.StandardButton.Yes:
-                self.bloquear_teclas()
-                print("Teclas BLOQUEADAS")
-            else:
-                return
+            mensaje = '¿Seguro que quieres bloquear las teclas?'
+
+        respuesta = QMessageBox.question(self, 'Advertencia', mensaje,
+                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+
+        if respuesta != QMessageBox.StandardButton.Yes:
+            return
+
+        if self.teclas_bloqueadas:
+            self.desbloquear_teclas()
+        else:
+            self.bloquear_teclas()
 
     def bloquear_teclas(self):
-            keyboard.unhook_all()
+        keyboard.unhook_all()
 
-            # # ALT
-            keyboard.block_key("alt")
+        # Al bloquear cada tecla por separado también quedan anuladas sus combinaciones
+        # (Alt+Tab, Alt+F4, Ctrl+Esc, Win+D, Win+R, Win+L, etc.).
+        # "windows" cubre la tecla Windows izquierda y derecha.
+        # Ctrl+Alt+Supr no se puede bloquear desde una aplicación (lo controla Windows).
+        for tecla in ["alt", "tab", "esc", "windows"]:
+            try:
+                keyboard.block_key(tecla)
+            except Exception as e:
+                print(f"No se pudo bloquear la tecla {tecla}: {e}")
 
-            # # TAB
-            keyboard.block_key("tab")
+        self.teclas_bloqueadas = True
+        self._actualizar_boton_teclas()
 
-            # ESC
-            keyboard.block_key("esc")
-
-            keyboard.block_key("windows")
-
-            # WINDOWS
-            keyboard.add_hotkey(
-                "left windows",
-                lambda: None,
-                suppress=True
-            )
-
-            keyboard.add_hotkey(
-                "right windows",
-                lambda: None,
-                suppress=True
-            )
-
-            # Combinaciones
-            combinaciones = [
-                "alt+tab",
-                "alt+f4",
-                "ctrl+esc","windows",
-                "windows+d",
-                "windows+e",
-                "windows+r",
-                "windows+l",
-                "windows+tab"
-            ]
-
-            for combo in combinaciones:
-                keyboard.add_hotkey(
-                    combo,
-                    lambda: None,
-                    suppress=True
-                )
-
-            self.teclas_bloqueadas = True
-
-
-            print("Bloqueo ACTIVADO")
-
+        print("Bloqueo ACTIVADO")
 
     def desbloquear_teclas(self):
-
         keyboard.unhook_all()
 
         self.teclas_bloqueadas = False
+        self._actualizar_boton_teclas()
 
         print("Bloqueo DESACTIVADO")
+
+    def _actualizar_boton_teclas(self):
+        """Cambia el color de ActivarTeclas_Btn para mostrar si las teclas están libres"""
+        if self.teclas_bloqueadas:
+            self.ActivarTeclas_Btn.setStyleSheet(self._estilo_boton_teclas)
+            self.ActivarTeclas_Btn.setToolTip("Teclas bloqueadas. Presiona para desbloquear.")
+        else:
+            self.ActivarTeclas_Btn.setStyleSheet(
+                self._estilo_boton_teclas.replace("#949494", "#E67E22"))
+            self.ActivarTeclas_Btn.setToolTip("Teclas DESBLOQUEADAS. Presiona para bloquear.")
 
     def ImprimirCorte(self):
         """Imprime el reporte de corte del día en formato legible"""
@@ -5048,6 +5023,7 @@ class ArandanosControl(QMainWindow, Ui_ArandanoMain):
     def closeEvent(self, event):
         """Manejar el cierre de la ventana principal"""
         self.cleanup_resources()
+        keyboard.unhook_all()
         event.accept()
 
        
