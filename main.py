@@ -3808,20 +3808,6 @@ class ArandanosControl(QMainWindow, Ui_ArandanoMain):
 
         self.teclas_bloqueadas = False
 
-        # # Cambiar estilo del botón
-        # self.ActivarTeclas_Btn.setStyleSheet("""
-        #     QToolButton {
-        #         background-color: #228B22;
-        #         color: white;
-        #         border-radius: 25px;
-        #         padding: 10px;
-        #         border: 2px solid white;
-        #         font-family: "Segoe UI";
-        #         font-size: 22px;
-        #         font-weight: 650;
-        #     }
-        # """)
-
         print("Bloqueo DESACTIVADO")
 
     def ImprimirCorte(self):
